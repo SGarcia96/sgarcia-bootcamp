@@ -1,0 +1,3 @@
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+

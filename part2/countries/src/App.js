@@ -1,72 +1,30 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Note } from "./Notes"
-import axios from 'axios'
+import { getAllCountries } from './services/countries/index'
+import { FilterCountries } from './components/FIlterCountries'
+import { Countries } from './components/Countries'
 
 const App = () => {
-  const [notes, setNotes] = useState([]) //If we wanted to start with an empty list of notes we would set the initial value as an empty array: useState([])
-  const [newNote, setNewNote] = useState("")
-  const [loading, setLoading] = useState(false)
+  const [countries, setCountries] = useState([])
+  const [newSearch, setNewSearch] = useState("")
  
+  //Get API countries
   useEffect(() => {
-    console.log("useEffect render")
-    setLoading(true)
-
-    /** Getting data from web */
-    /** fetch 
-     * fetch('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => response.json())  //transform response to json
-      .then((json) => {
-          console.log("json: ", json)
-          setNotes(json) 
-          setLoading(false)
-      })
-    */
-
-    //  axios
-    axios
-      .get('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => {
-        const { data } = response
-        setNotes(data)
-        setLoading(false)
+    getAllCountries()
+      .then((countries) => {
+        setCountries(countries)
       })
   }, [])
 
-
-  const handleChange = (event) => {
-  //  console.log(event.target.value) //con event.target.value se obtiene el valor introducido dentro del elemento (input en este caso)
-    setNewNote(event.target.value)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()  //evita el comportamiento por defecto (de onSummit en este caso)
-    
-    const noteToAddToState = {
-      id: notes.length + 1,
-      title: newNote,
-      body: newNote
-    }
-    console.log(noteToAddToState)
-
-    setNotes(notes.concat(noteToAddToState))  // other option is: setNotes([...notes, noteToAddToState, more to add...etc])
-    setNewNote("") //clean the input after create new note
+  const handleSearchChange = (event) => {
+    setNewSearch(event.target.value)
   }
 
   return (
     <div>
-      <h1>Notes</h1>
-      {loading ? 'Loading...' : ''}
-      <ul>
-        {notes.map((note) => (
-          <Note key={note.id} {...note} />
-        ))}
-      </ul>
-
-      <form onSubmit={handleSubmit}> 
-        <input type='text' onChange={handleChange} value={newNote} />
-        <button>Create note</button> 
-      </form>
+      <h1>Countries</h1>
+      <FilterCountries newSearch={newSearch} handleSearchChange={handleSearchChange} />
+      <Countries countries={countries} newSearch={newSearch} />
     </div>
   )
 }

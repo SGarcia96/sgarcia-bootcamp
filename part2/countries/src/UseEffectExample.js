@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react'
-import { Note } from "./Notes"
-import axios from 'axios'
+import { Note } from "./components/Notes"
+import { getAllNotes } from './services/notes/getAllNotes'
+import { createNote } from './services/notes/createNote'
 
 const Example = () => {
   const [notes, setNotes] = useState([]) //If we wanted to start with an empty list of notes we would set the initial value as an empty array: useState([])
@@ -24,13 +25,11 @@ const Example = () => {
     */
 
     //  axios
-    axios
-      .get('https://jsonplaceholder.typicode.com/posts')
-      .then((response) => {
-        const { data } = response
-        setNotes(data)
-        setLoading(false)
-      })
+    getAllNotes()
+    .then(notes => {
+      setNotes(notes)
+      setLoading(false)
+    })
   }, [])
 
 
@@ -43,13 +42,19 @@ const Example = () => {
     event.preventDefault()  //evita el comportamiento por defecto (de onSummit en este caso)
     
     const noteToAddToState = {
-      id: notes.length + 1,
       title: newNote,
-      body: newNote
+      body: newNote,
+      userId: 1
     }
-    console.log(noteToAddToState)
 
-    setNotes(notes.concat(noteToAddToState))  // other option is: setNotes([...notes, noteToAddToState, more to add...etc])
+    createNote(noteToAddToState)
+      .then((newNote) => {
+        setNotes((prevNotes) => prevNotes.concat(newNote)) // other option is: setNotes([...notes, noteToAddToState, more to add...etc])
+    })
+    .catch((e) => {
+      console.error(e)
+    })
+
     setNewNote("") //clean the input after create new note
   }
 

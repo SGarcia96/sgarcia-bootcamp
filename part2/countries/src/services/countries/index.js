@@ -5,7 +5,6 @@ export const getAllCountries = () => {
     return axios
         .get(baseUrl)
         .then(response => {
-            const { data } = response
-            return data 
+            return response.data; 
         })
 }

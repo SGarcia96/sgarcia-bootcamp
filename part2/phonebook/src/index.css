@@ -1,0 +1,19 @@
+.title {
+    color: rgb(13, 0, 128)
+}
+
+.person {
+    color: dimgrey;
+    padding-top: 10px;
+    font-size: 18px;
+}
+
+.notification {
+    color: chartreuse;
+    background: lightgrey;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}

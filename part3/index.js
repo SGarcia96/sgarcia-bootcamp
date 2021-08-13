@@ -1,7 +1,9 @@
 const express = require('express')
 const logger = require('./loggerMiddleware')
+const cors = require('cors')
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
 app.use(logger)
@@ -76,12 +78,6 @@ app.post('/api/persons/', (request, response) => {
 
   response.status(201).json(person)
 })
-
-const unknownEndpoint = (request, response) => {
-  response.status(404).send({ error: 'unknown endpoint' })
-}
-
-app.use(unknownEndpoint)
 
 const generateId = () => {
   const maxId =

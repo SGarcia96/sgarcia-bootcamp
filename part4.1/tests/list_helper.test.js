@@ -134,7 +134,7 @@ describe.skip('total likes', () => {
   })
 })
 
-describe('most likes', () => {
+describe.skip('most likes', () => {
   const blogMostLiked = {
     title: 'Canonical string reduction',
     author: 'Edsger W. Dijkstra',

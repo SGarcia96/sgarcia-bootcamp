@@ -2,6 +2,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/Blog')
+const User = require('../models/User')
 
 const initialBlogs = [
   {
@@ -33,6 +34,11 @@ const blogsInDb = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(user => user.toJSON())
+}
+
 module.exports = {
-  initialBlogs, api, nonExistingId, blogsInDb
+  initialBlogs, api, nonExistingId, blogsInDb, usersInDb
 }

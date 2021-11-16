@@ -8,7 +8,11 @@ const blogSchema = new Schema({
   },
   author: String,
   url: String,
-  likes: Number
+  likes: Number,
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 blogSchema.set('toJSON', {
